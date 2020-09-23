@@ -9,11 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentDetailBinding
+import entity.RowItem
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import viewmodel.MainViewModel
 
 class DetailFragment : Fragment() {
     lateinit var viewModel: MainViewModel
     lateinit var binding: LayoutFragmentDetailBinding
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +30,36 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater,
-                R.layout.layout_fragment_detail, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.layout_fragment_detail, container, false
+            )
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observeItemClick()
+    }
+
+    private fun observeItemClick() {
+        viewModel.observeItemClick()
+            .subscribe {
+                itemClicked(it)
+            }
+            .disposeBy(disposable)
+    }
+
+    private fun itemClicked(rowItem: RowItem) {
+        binding.item = rowItem
+    }
+
+    override fun onDestroy() {
+        disposable.dispose()
+        super.onDestroy()
+    }
+
+    private fun Disposable.disposeBy(compositeDisposable: CompositeDisposable) {
+        compositeDisposable.add(this)
     }
 }

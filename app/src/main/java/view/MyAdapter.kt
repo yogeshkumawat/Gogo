@@ -9,9 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gogo.R
 import com.gogo.databinding.LayoutRowItemBinding
 import entity.ListData
-import view.ListAdapter.MyViewHolder
+import entity.RowItem
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import view.MyAdapter.MyViewHolder
 
-class ListAdapter(private val context: Context, private val listData: ListData) : RecyclerView.Adapter<MyViewHolder>(){
+class MyAdapter(
+    private val context: Context,
+    private val listData: ListData
+) : RecyclerView.Adapter<MyViewHolder>() {
+
+    private val itemClickPublisher = PublishSubject.create<RowItem>()
+
+    fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
     lateinit var binding: LayoutRowItemBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -21,15 +31,22 @@ class ListAdapter(private val context: Context, private val listData: ListData) 
     }
 
     override fun getItemCount(): Int {
-       return listData.list.size
+        return listData.list.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         binding.item = listData.list.get(position)
+        holder.itemView.setTag(binding.item)
+
+        holder.itemView.setOnClickListener {
+            val item = it.getTag() as RowItem
+            itemClickPublisher.onNext(item)
+        }
+
         binding.executePendingBindings()
     }
 
-    class MyViewHolder(item: View): RecyclerView.ViewHolder(item) {
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
 }
