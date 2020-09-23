@@ -1,4 +1,4 @@
-package com.gogo
+package view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.gogo.databinding.LayoutFragmentDetailBinding
+import com.gogo.R
+import com.gogo.databinding.LayoutFragmentListBinding
 import viewmodel.MainViewModel
 
-class DetailFragment : Fragment() {
+class ListFragment : Fragment() {
     lateinit var viewModel: MainViewModel
-    lateinit var binding: LayoutFragmentDetailBinding
+    lateinit var binding: LayoutFragmentListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +25,20 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(inflater, R.layout.layout_fragment_detail, container, false)
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.layout_fragment_list, container, false)
         return binding.root
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.getList().subscribe {
+            binding.adapter = view.ListAdapter(requireActivity(), view)
+        }
+    }
+
 }
