@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentListBinding
 import entity.ListData
@@ -16,23 +17,20 @@ import io.reactivex.disposables.Disposable
 import viewmodel.MainViewModel
 
 class ListFragment : Fragment() {
-    lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     lateinit var binding: LayoutFragmentListBinding
 
     private val disposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.layout_fragment_list, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.layout_fragment_list, container, false
+        )
         return binding.root
     }
 
@@ -72,7 +70,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setData(it: ListData) {
-        binding.adapter = MyAdapter(requireActivity(),it)
+        binding.adapter = MyAdapter(requireActivity(), it)
     }
 
 }

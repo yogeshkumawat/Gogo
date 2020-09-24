@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.activityViewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentDetailBinding
 import entity.RowItem
@@ -15,14 +15,9 @@ import io.reactivex.disposables.Disposable
 import viewmodel.MainViewModel
 
 class DetailFragment : Fragment() {
-    lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     lateinit var binding: LayoutFragmentDetailBinding
     private val disposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

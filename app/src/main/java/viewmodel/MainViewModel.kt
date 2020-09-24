@@ -11,7 +11,7 @@ import io.reactivex.subjects.PublishSubject
 class MainViewModel() : ViewModel() {
     private val repository = Repository
 
-    private val itemClickPublisher = PublishSubject.create<RowItem>()
+    private val itemClickPublisher = BehaviorSubject.create<RowItem>()
 
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
