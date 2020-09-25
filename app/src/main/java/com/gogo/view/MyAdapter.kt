@@ -1,4 +1,4 @@
-package view
+package com.gogo.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.gogo.R
 import com.gogo.databinding.LayoutRowItemBinding
-import entity.ListData
-import entity.RowItem
+import com.gogo.entity.ListData
+import com.gogo.entity.RowItem
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import view.MyAdapter.MyViewHolder
+import com.gogo.view.MyAdapter.MyViewHolder
 
 class MyAdapter(
     private val context: Context,

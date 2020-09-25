@@ -1,8 +1,8 @@
-package common
+package com.gogo.common
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import view.MyAdapter
+import com.gogo.view.MyAdapter
 
 object BindingUtil {
 

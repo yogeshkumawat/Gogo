@@ -1,7 +1,7 @@
 package com.gogo.repo
 
-import entity.ListData
-import entity.RowItem
+import com.gogo.entity.ListData
+import com.gogo.entity.RowItem
 import io.reactivex.Observable
 
 object Repository {

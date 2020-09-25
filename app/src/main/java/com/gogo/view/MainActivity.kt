@@ -1,10 +1,10 @@
-package view
+package com.gogo.view
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.gogo.R
-import viewmodel.MainViewModel
+import com.gogo.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()

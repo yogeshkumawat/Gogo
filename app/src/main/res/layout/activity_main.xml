@@ -6,11 +6,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="view.MainActivity">
+        tools:context="com.gogo.view.MainActivity">
 
         <fragment
             android:id="@+id/listFragment"
-            android:name="view.ListFragment"
+            android:name="com.gogo.view.ListFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/detailFragment"
@@ -18,7 +18,7 @@
 
         <fragment
             android:id="@+id/detailFragment"
-            android:name="view.DetailFragment"
+            android:name="com.gogo.view.DetailFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

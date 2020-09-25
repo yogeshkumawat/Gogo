@@ -1,4 +1,4 @@
-package view
+package com.gogo.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,15 +8,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.gogo.R
-import com.gogo.databinding.LayoutFragmentDetailBinding
-import entity.RowItem
+import com.gogo.databinding.LayoutFragmentListBinding
+import com.gogo.entity.ListData
+import com.gogo.entity.RowItem
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import viewmodel.MainViewModel
+import com.gogo.viewmodel.MainViewModel
 
-class DetailFragment : Fragment() {
+class ListFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
-    lateinit var binding: LayoutFragmentDetailBinding
+    lateinit var binding: LayoutFragmentListBinding
+
     private val disposable = CompositeDisposable()
 
     override fun onCreateView(
@@ -24,29 +26,29 @@ class DetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.layout_fragment_detail, container, false
-            )
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.layout_fragment_list, container, false
+        )
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        observeViewModel()
         observeItemClick()
     }
 
     private fun observeItemClick() {
-        viewModel.observeItemClick()
-            .subscribe {
+        binding.adapter?.observeItemClick()
+            ?.subscribe {
                 itemClicked(it)
             }
-            .disposeBy(disposable)
+            ?.disposeBy(disposable)
     }
 
     private fun itemClicked(rowItem: RowItem) {
-        binding.item = rowItem
+        viewModel.itemClicked(rowItem)
     }
 
     override fun onDestroy() {
@@ -54,7 +56,20 @@ class DetailFragment : Fragment() {
         super.onDestroy()
     }
 
+    private fun observeViewModel() {
+        viewModel.getList()
+            .subscribe {
+                setData(it)
+            }
+            .disposeBy(disposable)
+    }
+
     private fun Disposable.disposeBy(compositeDisposable: CompositeDisposable) {
         compositeDisposable.add(this)
     }
+
+    private fun setData(it: ListData) {
+        binding.adapter = MyAdapter(requireActivity(), it)
+    }
+
 }

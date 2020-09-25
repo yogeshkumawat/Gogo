@@ -1,14 +1,13 @@
-package viewmodel
+package com.gogo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.gogo.repo.Repository
-import entity.ListData
-import entity.RowItem
+import com.gogo.entity.ListData
+import com.gogo.entity.RowItem
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
     private val repository = Repository
 
     private val itemClickPublisher = BehaviorSubject.create<RowItem>()
