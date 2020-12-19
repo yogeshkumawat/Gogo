@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.gogo.GogoApp
 import com.gogo.R
 import com.gogo.databinding.LayoutRowItemBinding
 import com.gogo.entity.ListData
@@ -22,6 +23,10 @@ class MyAdapter(
     private val itemClickPublisher = PublishSubject.create<RowItem>()
 
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
+
+    init {
+        GogoApp.appInstance.applicationInjector().inject(this)
+    }
 
     lateinit var binding: LayoutRowItemBinding
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
