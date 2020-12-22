@@ -8,7 +8,7 @@ import javax.inject.Provider
 
 
 @AppScope
-class ViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>,
+class ViewModelFactory @Inject constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards
         Provider<ViewModel>>) :
     ViewModelProvider.Factory {
 

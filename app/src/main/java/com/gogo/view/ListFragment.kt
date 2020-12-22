@@ -36,11 +36,11 @@ class ListFragment : Fragment() {
     }
 
     private fun observeItemClick() {
-        binding.adapter?.observeItemClick()
-            ?.subscribe {
-                itemClicked(it)
-            }
-            ?.disposeBy(disposable)
+//        binding.adapter?.observeItemClick()
+//            ?.subscribe {
+//                itemClicked(it)
+//            }
+//            ?.disposeBy(disposable)
     }
 
     private fun itemClicked(rowItem: RowItem) {
@@ -65,7 +65,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setData(it: ListData) {
-        binding.adapter = MyAdapter(requireActivity(), it)
+//        binding.adapter = MyAdapter(requireActivity(), it)
     }
 
 }
