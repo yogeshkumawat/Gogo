@@ -9,17 +9,16 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
 
-    @Inject
-    lateinit var repository: Repository
+    var repository: Repository = Repository()
 
     private val itemClickPublisher = BehaviorSubject.create<RowItem>()
 
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
     init {
-        GogoApp.appInstance.applicationInjector().inject(this)
+//        GogoApp.appInstance.applicationInjector().inject(this)
     }
 
     fun getList():Observable<ListData>{

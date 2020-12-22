@@ -11,11 +11,11 @@ import dagger.android.support.AndroidSupportInjectionModule
 @AppScope
 @Component(
     modules = [AndroidSupportInjectionModule::class,
-        AndroidInjectionModule::class, AppModule::class, ActivityModule::class]
+        AndroidInjectionModule::class, AppModule::class, ActivityModule::class, ViewModelModule::class]
 )
 interface AppComponent : AndroidInjector<GogoApp> {
-    fun inject(mainViewModel: MainViewModel)
-    fun inject(myAdapter: MyAdapter)
+    /*fun inject(mainViewModel: MainViewModel)
+    fun inject(myAdapter: MyAdapter)*/
 
     @Component.Factory
     interface Factory : AndroidInjector.Factory<GogoApp>

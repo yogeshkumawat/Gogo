@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable
 import com.gogo.viewmodel.MainViewModel
 
 class DetailFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
+//    private val viewModel: MainViewModel by activityViewModels()
     lateinit var binding: LayoutFragmentDetailBinding
     private val disposable = CompositeDisposable()
 
@@ -38,11 +38,11 @@ class DetailFragment : Fragment() {
     }
 
     private fun observeItemClick() {
-        viewModel.observeItemClick()
+        /*viewModel.observeItemClick()
             .subscribe {
                 itemClicked(it)
             }
-            .disposeBy(disposable)
+            .disposeBy(disposable)*/
     }
 
     private fun itemClicked(rowItem: RowItem) {

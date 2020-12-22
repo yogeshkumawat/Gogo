@@ -6,21 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentListBinding
 import com.gogo.entity.ListData
 import com.gogo.entity.RowItem
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import com.gogo.viewmodel.MainViewModel
 
 class ListFragment : Fragment() {
-    private val viewModel: MainViewModel by activityViewModels()
     lateinit var binding: LayoutFragmentListBinding
 
     private val disposable = CompositeDisposable()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -48,7 +44,7 @@ class ListFragment : Fragment() {
     }
 
     private fun itemClicked(rowItem: RowItem) {
-        viewModel.itemClicked(rowItem)
+        //viewModel.itemClicked(rowItem)
     }
 
     override fun onDestroy() {
@@ -57,11 +53,11 @@ class ListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getList()
+        /*viewModel.getList()
             .subscribe {
                 setData(it)
             }
-            .disposeBy(disposable)
+            .disposeBy(disposable)*/
     }
 
     private fun Disposable.disposeBy(compositeDisposable: CompositeDisposable) {

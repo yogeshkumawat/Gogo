@@ -25,7 +25,7 @@ class MyAdapter(
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
     init {
-        GogoApp.appInstance.applicationInjector().inject(this)
+//        GogoApp.appInstance.applicationInjector().inject(this)
     }
 
     lateinit var binding: LayoutRowItemBinding
