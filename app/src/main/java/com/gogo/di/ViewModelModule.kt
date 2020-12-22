@@ -12,18 +12,8 @@ import kotlin.reflect.KClass
 
 @Module
 abstract class ViewModelModule {
-
-    @Binds
-    @AppScope
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
-
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel::class)
-    abstract fun bindLoginViewModel(viewModel: MainViewModel): ViewModel
+    abstract fun bindMyViewModel(myViewModel: MainViewModel): ViewModel
 }
-
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
-@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-@MapKey
-internal annotation class ViewModelKey(val value: KClass<out ViewModel>)

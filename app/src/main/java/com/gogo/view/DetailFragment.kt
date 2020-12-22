@@ -5,17 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentDetailBinding
 import com.gogo.entity.RowItem
+import com.gogo.viewmodel.MainViewModel
+import com.gogo.viewmodel.ViewModelFactory
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import com.gogo.viewmodel.MainViewModel
+import javax.inject.Inject
 
-class DetailFragment : Fragment() {
-//    private val viewModel: MainViewModel by activityViewModels()
+class DetailFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: MainViewModel by activityViewModels() { viewModelFactory }
+
     lateinit var binding: LayoutFragmentDetailBinding
     private val disposable = CompositeDisposable()
 
@@ -38,11 +45,11 @@ class DetailFragment : Fragment() {
     }
 
     private fun observeItemClick() {
-        /*viewModel.observeItemClick()
+        viewModel.observeItemClick()
             .subscribe {
                 itemClicked(it)
             }
-            .disposeBy(disposable)*/
+            .disposeBy(disposable)
     }
 
     private fun itemClicked(rowItem: RowItem) {

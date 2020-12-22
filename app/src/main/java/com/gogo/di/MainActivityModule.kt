@@ -1,18 +1,16 @@
 package com.gogo.di
 
-import android.app.Activity
-import com.gogo.entity.MainActivityScope
-import com.gogo.repo.Repository
-import com.gogo.view.MainActivity
+import com.gogo.view.DetailFragment
+import com.gogo.view.ListFragment
 import dagger.Module
-import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class MainActivityModule {
+abstract class MainActivityModule {
 
-    @Provides
-    @MainActivityScope
-    fun yogesh(): Repository {
-        return Repository()
-    }
+    @ContributesAndroidInjector()
+    internal abstract fun listFragment(): ListFragment
+
+    @ContributesAndroidInjector()
+    internal abstract fun detailFragment(): DetailFragment
 }

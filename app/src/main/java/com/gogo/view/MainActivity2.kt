@@ -1,28 +1,22 @@
 package com.gogo.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import com.gogo.R
-import com.gogo.repo.Repository
 import com.gogo.viewmodel.MainViewModel
+import com.gogo.viewmodel.ViewModelFactory
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity2 : AppCompatActivity()/*, HasAndroidInjector */{
-    /*private val viewModel: MainViewModel by viewModels()
+class MainActivity2 : DaggerAppCompatActivity() {
+    private val viewModel: MainViewModel by viewModels() { viewModelFactory }
 
     @Inject
-    lateinit var injector: DispatchingAndroidInjector<Any>
-
-    @Inject
-    lateinit var repository: Repository*/
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -30,13 +24,11 @@ class MainActivity2 : AppCompatActivity()/*, HasAndroidInjector */{
         setContentView(R.layout.activity_main)
         AndroidInjection.inject(this)
 
-//        viewModel.getList()
-//        Log.v("BOSS2","MainActivity22222: Repository= $repository View Model= $viewModel")
+        Log.v(
+            "BOSS2",
+            "MainActivity22222: Repository= ${viewModel.repository} View Model= $viewModel"
+        )
         start_button.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
 
     }
-
-    /*override fun androidInjector(): AndroidInjector<Any> {
-        return injector
-    }*/
 }

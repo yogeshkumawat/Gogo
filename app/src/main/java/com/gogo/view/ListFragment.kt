@@ -5,16 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentListBinding
 import com.gogo.entity.ListData
 import com.gogo.entity.RowItem
+import com.gogo.viewmodel.MainViewModel
+import com.gogo.viewmodel.ViewModelFactory
+import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
-class ListFragment : Fragment() {
+class ListFragment : DaggerFragment() {
     lateinit var binding: LayoutFragmentListBinding
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: MainViewModel by activityViewModels() { viewModelFactory }
 
     private val disposable = CompositeDisposable()
     override fun onCreateView(
@@ -36,15 +45,17 @@ class ListFragment : Fragment() {
     }
 
     private fun observeItemClick() {
-        binding.adapter?.observeItemClick()
-            ?.subscribe {
-                itemClicked(it)
-            }
-            ?.disposeBy(disposable)
+        binding.recyclerView.adapter?.let {
+            (it as MyAdapter).observeItemClick()
+                .subscribe {
+                    itemClicked(it)
+                }.disposeBy(disposable)
+        }
+
     }
 
     private fun itemClicked(rowItem: RowItem) {
-        //viewModel.itemClicked(rowItem)
+        viewModel.itemClicked(rowItem)
     }
 
     override fun onDestroy() {
@@ -53,11 +64,11 @@ class ListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        /*viewModel.getList()
+        viewModel.getList()
             .subscribe {
                 setData(it)
             }
-            .disposeBy(disposable)*/
+            .disposeBy(disposable)
     }
 
     private fun Disposable.disposeBy(compositeDisposable: CompositeDisposable) {
@@ -65,7 +76,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setData(it: ListData) {
-        binding.adapter = MyAdapter(requireActivity(), it)
+        binding.recyclerView.adapter = MyAdapter(requireActivity(), it)
     }
 
 }
