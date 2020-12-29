@@ -1,3 +1,8 @@
 package com.gogo.entity
 
-data class RowItem(val name: String)
+data class RowItem(
+    val login: String,
+    val score: Int,
+    val avatar_url: String,
+    val url: String
+)

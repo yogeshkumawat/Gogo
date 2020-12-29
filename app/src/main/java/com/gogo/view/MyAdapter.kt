@@ -36,12 +36,12 @@ class MyAdapter(
     }
 
     override fun getItemCount(): Int {
-        return listData.list.size
+        return listData.items.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        binding.item = listData.list.get(position)
-        holder.itemView.setTag(binding.item)
+        binding.item = listData.items[position]
+        holder.itemView.tag = binding.item
 
         holder.itemView.setOnClickListener {
             val item = it.getTag() as RowItem

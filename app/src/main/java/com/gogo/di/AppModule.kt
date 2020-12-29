@@ -4,6 +4,7 @@ import com.gogo.gateway.SearchResultDatabaseGateway
 import com.gogo.gateway.SearchResultDatabaseGatewayImpl
 import com.gogo.gateway.SearchResultNetworkGateway
 import com.gogo.gateway.SearchResultNetworkGatewayImpl
+import com.gogo.network.GitRepoRestClient
 import com.gogo.repo.SearchResultRepository
 import dagger.Module
 import dagger.Provides
@@ -12,6 +13,8 @@ import dagger.Provides
 class AppModule {
 
     fun repository(searchResultRepository: SearchResultRepository) = searchResultRepository
+
+    fun repoClient(gitRepoRestClient: GitRepoRestClient) = gitRepoRestClient
 
     @Provides
     fun networkGateway(searchResultNetworkGatewayImpl: SearchResultNetworkGatewayImpl):
