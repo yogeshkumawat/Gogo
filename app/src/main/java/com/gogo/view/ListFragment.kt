@@ -23,7 +23,7 @@ class ListFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: MainViewModel by activityViewModels() { viewModelFactory }
+    private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     private val disposable = CompositeDisposable()
     override fun onCreateView(

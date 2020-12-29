@@ -21,7 +21,7 @@ class DetailFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private val viewModel: MainViewModel by activityViewModels() { viewModelFactory }
+    private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     lateinit var binding: LayoutFragmentDetailBinding
     private val disposable = CompositeDisposable()
