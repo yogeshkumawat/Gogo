@@ -16,6 +16,7 @@ import com.gogo.entity.RowItem
 import com.gogo.viewmodel.MainViewModel
 import com.gogo.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import javax.inject.Inject
@@ -29,9 +30,6 @@ class ListFragment : DaggerFragment() {
     private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     private val disposable = CompositeDisposable()
-
-    private val handler = Handler()
-    private var runnable: Runnable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -105,6 +103,7 @@ class ListFragment : DaggerFragment() {
 
     private fun observeSearchResult() {
         viewModel.observeResultList()
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 setData(it)
             }

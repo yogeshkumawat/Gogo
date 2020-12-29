@@ -2,15 +2,16 @@ package com.gogo.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.gogo.entity.ListData
+import com.gogo.entity.Response
 import com.gogo.entity.RowItem
-import com.gogo.repo.Repository
+import com.gogo.repo.SearchResultRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val repository: Repository
+    private val searchResultRepository: SearchResultRepository
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
@@ -19,17 +20,23 @@ class MainViewModel @Inject constructor(
 
     private val dataListSubject = BehaviorSubject.create<ListData>()
 
+    private val errorPublisher = BehaviorSubject.create<Exception>()
+
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
-    fun observeResultList(): Observable<ListData> {
-        return dataListSubject
-    }
+    fun observeResultList(): Observable<ListData> = dataListSubject
 
     fun fetchList(query: String) {
-        repository.loadData(query).subscribe {
-            dataListSubject.onNext(it)
-        }
+        compositeDisposable.add(searchResultRepository.loadData(query).subscribe {
+            handleSearchResult(it) }
+        )
+    }
 
+    private fun handleSearchResult(response: Response<ListData>) {
+        when (response) {
+            is Response.Success -> dataListSubject.onNext(response.data)
+            is Response.Failure -> errorPublisher.onNext(response.exception)
+        }
     }
 
     override fun onCleared() {
