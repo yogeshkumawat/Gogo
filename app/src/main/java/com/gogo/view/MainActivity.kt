@@ -21,9 +21,5 @@ class MainActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.v("BOSS2", "MainActivity: Repository= ${viewModel.repository} View Model= $viewModel")
-
-        start_button.setOnClickListener { startActivity(Intent(this, MainActivity2::class.java)) }
-
     }
 }

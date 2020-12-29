@@ -9,7 +9,7 @@ import javax.inject.Inject
 @AppScope
 class Repository @Inject constructor() {
 
-    fun loadData() : Observable<ListData> {
-        return Observable.just(ListData(listOf(RowItem("hi"), RowItem("Hello"), RowItem("Bye"))))
+    fun loadData(query: String): Observable<ListData> {
+        return Observable.just(ListData(listOf(RowItem("hi"), RowItem(query), RowItem("Bye"))))
     }
 }

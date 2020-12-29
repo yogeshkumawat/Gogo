@@ -5,19 +5,36 @@ import com.gogo.entity.ListData
 import com.gogo.entity.RowItem
 import com.gogo.repo.Repository
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    val repository: Repository
+    private val repository: Repository
 ) : ViewModel() {
+
+    private val compositeDisposable = CompositeDisposable()
 
     private val itemClickPublisher = BehaviorSubject.create<RowItem>()
 
+    private val dataListSubject = BehaviorSubject.create<ListData>()
+
     fun observeItemClick(): Observable<RowItem> = itemClickPublisher
 
-    fun getList(): Observable<ListData> {
-        return repository.loadData()
+    fun observeResultList(): Observable<ListData> {
+        return dataListSubject
+    }
+
+    fun fetchList(query: String) {
+        repository.loadData(query).subscribe {
+            dataListSubject.onNext(it)
+        }
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 
     fun itemClicked(rowItem: RowItem) {

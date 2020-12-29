@@ -1,6 +1,9 @@
 package com.gogo.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +29,10 @@ class ListFragment : DaggerFragment() {
     private val viewModel: MainViewModel by activityViewModels { viewModelFactory }
 
     private val disposable = CompositeDisposable()
+
+    private val handler = Handler()
+    private var runnable: Runnable? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,8 +47,41 @@ class ListFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        observeViewModel()
+        //observeSearchBoxQuery()
+        addSearchButtonClick()
+        observeSearchResult()
         observeItemClick()
+    }
+
+    private fun addSearchButtonClick() {
+        binding.searchButton.setOnClickListener {
+            fetchSearchResults(binding.searchBox.text.toString())
+        }
+    }
+
+    /*private fun observeSearchBoxQuery() {
+        binding.searchBox.addTextChangedListener(object :
+            TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                *//*runnable?.let { handler.removeCallbacks(it) }
+                runnable = Runnable { fetchSearchResults(s?.toString()) }
+                Handler().postDelayed({ runnable }, 2000)*//*
+                Handler().postDelayed({
+                    fetchSearchResults(s?.toString())
+                }, 500)
+            }
+        })
+    }*/
+
+    private fun fetchSearchResults(query: String?) {
+        if(!query.isNullOrEmpty())
+            viewModel.fetchList(query)
     }
 
     private fun observeItemClick() {
@@ -63,8 +103,8 @@ class ListFragment : DaggerFragment() {
         super.onDestroy()
     }
 
-    private fun observeViewModel() {
-        viewModel.getList()
+    private fun observeSearchResult() {
+        viewModel.observeResultList()
             .subscribe {
                 setData(it)
             }
