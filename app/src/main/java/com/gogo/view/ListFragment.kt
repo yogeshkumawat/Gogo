@@ -31,6 +31,8 @@ class ListFragment : DaggerFragment() {
 
     private val disposable = CompositeDisposable()
 
+    private lateinit var adapter: MyAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +48,8 @@ class ListFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //observeSearchBoxQuery()
+        adapter = MyAdapter(requireActivity())
+        binding.recyclerView.adapter = adapter
         addSearchButtonClick()
         observeSearchResult()
         observeItemClick()
@@ -83,13 +87,9 @@ class ListFragment : DaggerFragment() {
     }
 
     private fun observeItemClick() {
-        binding.recyclerView.adapter?.let {
-            (it as MyAdapter).observeItemClick()
-                .subscribe {
-                    itemClicked(it)
-                }.disposeBy(disposable)
-        }
-
+        adapter.observeItemClick().subscribe {
+            itemClicked(it)
+        }.disposeBy(disposable)
     }
 
     private fun itemClicked(rowItem: RowItem) {
@@ -115,7 +115,8 @@ class ListFragment : DaggerFragment() {
     }
 
     private fun setData(it: ListData) {
-        binding.recyclerView.adapter = MyAdapter(requireActivity(), it)
+        adapter.listData = it
+        adapter.notifyDataSetChanged()
     }
 
 }
