@@ -5,5 +5,5 @@ import com.gogo.entity.Response
 import io.reactivex.Observable
 
 interface SearchResultNetworkGateway {
-    fun load(): Observable<Response<ListData>>
+    fun load(query: String): Observable<Response<ListData>>
 }

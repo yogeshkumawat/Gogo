@@ -12,13 +12,12 @@ class SearchResultNetworkGatewayImpl @Inject constructor(
     val gitRepoRestClient: GitRepoRestClient
 ) : SearchResultNetworkGateway {
 
-    override fun load(): Observable<Response<ListData>> {
+    override fun load(query: String): Observable<Response<ListData>> {
         return Observable.create { emitter ->
 
             // Fetch a list of the Github repositories.
             gitRepoRestClient.client
-//                .fetchResult("vipul", "1")
-                .fetchResult()
+                .fetchResult(query, "1")
                 .enqueue(object :
                     Callback<ListData?> {
                     override fun onResponse(

@@ -3,7 +3,6 @@ package com.gogo.repo
 import com.gogo.di.AppScope
 import com.gogo.entity.ListData
 import com.gogo.entity.Response
-import com.gogo.entity.RowItem
 import com.gogo.gateway.SearchResultDatabaseGateway
 import com.gogo.gateway.SearchResultNetworkGateway
 import io.reactivex.Observable
@@ -17,17 +16,20 @@ class SearchResultRepository @Inject constructor(
 
     fun loadData(query: String): Observable<Response<ListData>> {
         return searchResultDatabaseGateway.load().flatMap {
-            handleDatabaseResult(it)
+            handleDatabaseResult(query, it)
         }
     }
 
-    private fun handleDatabaseResult(response: Response<ListData>): Observable<Response<ListData>> {
-        return when(response) {
+    private fun handleDatabaseResult(
+        query: String,
+        response: Response<ListData>
+    ): Observable<Response<ListData>> {
+        return when (response) {
             is Response.Success -> Observable.just(Response.Success(response.data))
-            is Response.Failure -> fetchFromNetwork()
+            is Response.Failure -> fetchFromNetwork(query)
         }
     }
 
-    private fun fetchFromNetwork(): Observable<Response<ListData>> =
-        searchResultNetworkGateway.load()
+    private fun fetchFromNetwork(query: String): Observable<Response<ListData>> =
+        searchResultNetworkGateway.load(query)
 }
