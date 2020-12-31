@@ -22,7 +22,7 @@
             android:name="com.gogo.view.DetailFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintVertical_weight=".3"
+            app:layout_constraintVertical_weight="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listFragment" />
 

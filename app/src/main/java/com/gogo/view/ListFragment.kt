@@ -7,10 +7,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.gogo.R
 import com.gogo.databinding.LayoutFragmentListBinding
+import com.gogo.databinding.LayoutFragmentListSearchBinding
 import com.gogo.entity.ListData
 import com.gogo.entity.RowItem
 import com.gogo.viewmodel.MainViewModel
@@ -22,7 +24,7 @@ import io.reactivex.disposables.Disposable
 import javax.inject.Inject
 
 class ListFragment : DaggerFragment() {
-    lateinit var binding: LayoutFragmentListBinding
+    lateinit var binding: LayoutFragmentListSearchBinding
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -40,7 +42,7 @@ class ListFragment : DaggerFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.layout_fragment_list, container, false
+            R.layout.layout_fragment_list_search, container, false
         )
         return binding.root
     }
@@ -56,9 +58,22 @@ class ListFragment : DaggerFragment() {
     }
 
     private fun addSearchButtonClick() {
-        binding.searchButton.setOnClickListener {
-            fetchSearchResults(binding.searchBox.text.toString())
+        binding.searchButton1.setOnClickListener {
+            fetchResult(it as Button)
         }
+        binding.searchButton2.setOnClickListener {
+            fetchResult(it as Button)
+        }
+        binding.searchButton3.setOnClickListener {
+            fetchResult(it as Button)
+        }
+        binding.searchButton4.setOnClickListener {
+            fetchResult(it as Button)
+        }
+    }
+
+    private fun fetchResult(it: Button) {
+        fetchSearchResults(it.text.toString())
     }
 
     /*private fun observeSearchBoxQuery() {
